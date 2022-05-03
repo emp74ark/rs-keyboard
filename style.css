@@ -1,0 +1,43 @@
+* {
+    margin: 5px;
+    box-sizing: border-box;
+    font-size: 10px;
+}
+.text__wrapper {
+    margin: 0 auto;
+    width: 100%;    
+    background: navajowhite;
+    padding: 10px;
+    text-align: center;
+}
+.text__input {
+    width: 700px;
+    height: 300px;
+}
+.keyboard_wrapper {
+    margin: 0 auto;
+    width: 100%;
+    background: grey;
+    padding: 10px;
+}
+.board {
+    margin: 0 auto;
+    padding: 1px;
+    background: white;
+    text-align: center;
+}
+.key__button {
+    margin: 1px;
+    font-size: 2rem;
+    width: 5rem;
+    height: 5rem;
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+.key__button_double {
+    width: 10rem;
+}
+.key__button_space {
+    width: 47rem;
+}
