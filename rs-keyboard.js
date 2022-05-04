@@ -26,7 +26,15 @@ const layout_ru = ['ё','1','2','3','4','5','6','7','8','9','0','-','=','↚',
                     '↥','я','ч','с','м','и','т','ь','б','ю','↑',
                     'ctrl','cmd','alt','↔','←','↓','→'];
 
+
 let layout = layout_en;
+function changeLayout(){
+    layout == layout_en ? layout = layout_ru: layout = layout_en;
+    document.querySelector('.keyboard_wrapper').remove();
+    rsKeyboard.createKeyboard();
+} 
+
+
 let upperCase = false;
 
 const rsKeyboard = {
@@ -105,16 +113,7 @@ function keyAction(key){
         }
     }
     else if (this.innerText === '🌎'){
-        if (layout === layout_en){
-            layout = layout_ru;
-            document.querySelector('.keyboard_wrapper').remove();
-            rsKeyboard.createKeyboard()
-        }
-        else if (layout === layout_ru){
-            layout = layout_en;
-            document.querySelector('.keyboard_wrapper').remove();
-            rsKeyboard.createKeyboard()
-        }
+        changeLayout();
     } else {
         if (upperCase == true){
             currentText.value += this.innerText.toUpperCase();
@@ -127,6 +126,42 @@ function keyAction(key){
 // Physical keys actions
 document.addEventListener('keydown', (e)=>{
     let currentText = document.querySelector('textarea');
+    if (e.ctrlKey && e.shiftKey){
+        changeLayout();
+    }
+    if (e.code === 'Backspace'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↚')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'Enter'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↵')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Shift'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↥')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowUp'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↑')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Control'){
+        document.querySelectorAll('.key__button')[layout.indexOf('ctrl')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Meta'){
+        document.querySelectorAll('.key__button')[layout.indexOf('cmd')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Alt'){
+        document.querySelectorAll('.key__button')[layout.indexOf('alt')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'Space'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↔')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowLeft'){
+        document.querySelectorAll('.key__button')[layout.indexOf('←')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowDown'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↓')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowRight'){
+        document.querySelectorAll('.key__button')[layout.indexOf('→')].classList.toggle('key__button_active');
+    }
     for (let i=0; i<layout.length; i++){
         if (e.key === layout[i]){
             document.querySelectorAll('.key__button')[i].classList.toggle('key__button_active');
@@ -135,9 +170,43 @@ document.addEventListener('keydown', (e)=>{
     }
 })
 document.addEventListener('keyup', (e)=>{
+    if (e.code === 'Backspace'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↚')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'Enter'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↵')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Shift'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↥')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowUp'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↑')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Control'){
+        document.querySelectorAll('.key__button')[layout.indexOf('ctrl')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Meta'){
+        document.querySelectorAll('.key__button')[layout.indexOf('cmd')].classList.toggle('key__button_active');
+    }
+    if (e.key === 'Alt'){
+        document.querySelectorAll('.key__button')[layout.indexOf('alt')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'Space'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↔')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowLeft'){
+        document.querySelectorAll('.key__button')[layout.indexOf('←')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowDown'){
+        document.querySelectorAll('.key__button')[layout.indexOf('↓')].classList.toggle('key__button_active');
+    }
+    if (e.code === 'ArrowRight'){
+        document.querySelectorAll('.key__button')[layout.indexOf('→')].classList.toggle('key__button_active');
+    }
     for (let i=0; i<layout.length; i++){
         if (e.key === layout[i]){
             document.querySelectorAll('.key__button')[i].classList.toggle('key__button_active');
+            currentText.value += e.key;
         }
     }
 })

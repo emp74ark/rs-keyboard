@@ -4,7 +4,9 @@
 - Additional layout
 - Shift key
 - Add event listeners for mouse
+- Keyboard layout switch
 ## To-do:
 - Add event listeners for keyboard
-- Keyboard layout switch
+    * regular keys
+    * functional keys
 - ESLint

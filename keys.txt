@@ -1,0 +1,11 @@
+Backspace
+Tab
+Shift
+Enter
+Control
+Meta
+Alt
+ArrowLeft
+ArrowUp
+ArrowDown
+ArrowRight
