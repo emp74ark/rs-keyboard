@@ -7,3 +7,4 @@
 ## To-do:
 - Add event listeners for keyboard
 - Keyboard layout switch
+- ESLint

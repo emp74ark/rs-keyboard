@@ -42,3 +42,6 @@
 .key__button_space {
     width: 47rem;
 }
+.key__button_active {
+    background-color: pink;
+}

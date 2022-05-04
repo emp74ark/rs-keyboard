@@ -78,6 +78,10 @@ const rsKeyboard = {
     }
 }
 
+// Input action
+
+// Virtual keys actions
+
 function keyAction(key){
     const specialKeys = ['↚','↵','↥','↑','ctrl','cmd','alt','↔','←','↓','→']
     let currentText = document.querySelector('textarea');
@@ -119,6 +123,24 @@ function keyAction(key){
         }
     }
 }
+
+// Physical keys actions
+document.addEventListener('keydown', (e)=>{
+    let currentText = document.querySelector('textarea');
+    for (let i=0; i<layout.length; i++){
+        if (e.key === layout[i]){
+            document.querySelectorAll('.key__button')[i].classList.toggle('key__button_active');
+            currentText.value += e.key;
+        }
+    }
+})
+document.addEventListener('keyup', (e)=>{
+    for (let i=0; i<layout.length; i++){
+        if (e.key === layout[i]){
+            document.querySelectorAll('.key__button')[i].classList.toggle('key__button_active');
+        }
+    }
+})
 
 rsText.createTextarea();
 rsKeyboard.createKeyboard();
