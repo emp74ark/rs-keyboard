@@ -2,31 +2,34 @@
     margin: 5px;
     box-sizing: border-box;
     font-size: 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 .text__wrapper {
     margin: 0 auto;
-    width: 100%;    
-    background: navajowhite;
+    width: 100%;
     padding: 10px;
     font-size: 2rem;
     text-align: center;
 }
 .text__input {
-    width: 700px;
+    width: 800px;
     height: 200px;
     font-size: 2rem;
+    border-radius: 10px;
 }
 .keyboard_wrapper {
     margin: 0 auto;
     width: 100%;
-    background: grey;
     padding: 10px;
+    border-radius: 10px;
 }
 .board {
     margin: 0 auto;
-    padding: 1px;
-    background: white;
+    padding: 5px;
+    width: 800px;
+    background: grey;
     text-align: center;
+    border-radius: 10px;
 }
 .key__button {
     margin: 1px;
@@ -35,7 +38,7 @@
     height: 5rem;
     text-align: center;
     vertical-align: middle;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 .key__button_double {
     width: 10rem;
@@ -44,5 +47,6 @@
     width: 47rem;
 }
 .key__button_active {
-    background-color: pink;
+    background-color: #81ff65;
+    box-shadow: 2px 2px #14270f;
 }

@@ -10,6 +10,7 @@
     * functional keys
 - ESLint
 ## To-do:
+- Tab button
 - CapsLock button
 ## Bugs
 - Keyboard arrows don't works
