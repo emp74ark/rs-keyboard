@@ -66,7 +66,7 @@ const rsKeyboard = {
     
     createKeys(){
         const rowBreakKeys = ['↚', '🌎', '↵', '↑']
-        const doubleWidth = ['↚', '↵', '↥', '🌎']
+        const doubleWidth = ['↚', '↵', '↥', '🌎', 'Tab']
         const keys__dom = document.createDocumentFragment();
 
         layout.forEach(function(key){
@@ -84,8 +84,39 @@ const rsKeyboard = {
             if (key == '↔'){
                 keyElement.classList.add('key__button_space')
             }
-            keyElement.addEventListener("click", this.keyAction)
+            keyElement.addEventListener("click", keyAction)
         })
+
+        function keyAction(){
+            const specialKeys = ['↚','↵','↥','↑','ctrl','cmd','alt','↔','←','↓','→']
+            let currentText = document.querySelector('textarea');
+            
+            if (specialKeys.includes(this.innerText)){
+                if (this.innerText === '↚'){
+                    currentText.value = currentText.value.replace(/.$/, '')
+                }
+                if (this.innerText === '↵'){
+                    currentText.value += '\n'
+                }
+                if (this.innerText === '↥' && upperCase == false){
+                    upperCase = true
+                } else {
+                    upperCase = false
+                }
+                if (this.innerText === '↔'){
+                    currentText.value += ' '
+                }
+            }
+            else if (this.innerText === '🌎'){
+                changeLayout();
+            } else {
+                if (upperCase == true){
+                    currentText.value += this.innerText.toUpperCase();
+                } else {
+                    currentText.value += this.innerText;
+                }
+            }
+        }
 
         this.parts.board.append(keys__dom);
     },
@@ -141,7 +172,6 @@ const rsKeyboard = {
                 if (e.key === layout[i]){
                     keyButton[i].classList.toggle('key__button_active');
                     currentText.value += e.key;
-                    console.log(e.key)
                 }
             }
         })
@@ -150,6 +180,9 @@ const rsKeyboard = {
             
             if (e.code === 'Backspace'){
                 keyButton[layout.indexOf('↚')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'Tab'){
+                keyButton[layout.indexOf('Tab')].classList.toggle('key__button_active');
             }
             if (e.code === 'Enter'){
                 keyButton[layout.indexOf('↵')].classList.toggle('key__button_active');
@@ -187,41 +220,6 @@ const rsKeyboard = {
                 }
             }
         })
-    }
-}
-
-// Input action
-
-// Virtual keys actions
-
-function keyAction(key){
-    const specialKeys = ['↚','↵','↥','↑','ctrl','cmd','alt','↔','←','↓','→']
-    let currentText = document.querySelector('textarea');
-    
-    if (specialKeys.includes(this.innerText)){
-        if (this.innerText === '↚'){
-            currentText.value = currentText.value.replace(/.$/, '')
-        }
-        if (this.innerText === '↵'){
-            currentText.value += '\n'
-        }
-        if (this.innerText === '↥' && upperCase == false){
-            upperCase = true
-        } else {
-            upperCase = false
-        }
-        if (this.innerText === '↔'){
-            currentText.value += ' '
-        }
-    }
-    else if (this.innerText === '🌎'){
-        changeLayout();
-    } else {
-        if (upperCase == true){
-            currentText.value += this.innerText.toUpperCase();
-        } else {
-            currentText.value += this.innerText;
-        }
     }
 }
 
