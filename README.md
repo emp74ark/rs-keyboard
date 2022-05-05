@@ -1,4 +1,5 @@
-# Virtual keyboard for RS School
+# Virtual keyboard for RS 
+[Links to gh-pages](https://emp74ark.github.io/rs-keyboard/)
 ## Already done:
 - Generate virtual keyboard in JS
 - Additional layout
@@ -8,11 +9,11 @@
 - Add event listeners for keyboard
     * regular keys
     * functional keys
-- ESLint
-## To-do:
 - Tab button
 - CapsLock button
+## To-do:
+- Shift
+- Arrows
+- Del
+- ESLint (eslint-config-airbnb-base)
 ## Bugs
-- Keyboard arrows don't works
-- Shift and Ctrl remain highlighted after layout switch
-- System keyboard layout and virtual keyboard layout doesn't sync

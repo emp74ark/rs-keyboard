@@ -20,15 +20,15 @@ const rsText = {
     }
 }
 
-const layout_en = ['1','2','3','4','5','6','7','8','9','0','-','=','↚',
-                    'q','w','e','r','t','y','u','i','o','p','🌎',
-                    'a','s','d','f','g','h','j','k','l','↵',
-                    '↥','z','x','c','v','b','n','m', ',', '.', '?','↑',
+const layout_en = ['`','1','2','3','4','5','6','7','8','9','0','-','=','↚',
+                    '↹','q','w','e','r','t','y','u','i','o','p','[',']','🌎',
+                    '⇈','a','s','d','f','g','h','j','k','l',';','\'','↵',
+                    '↥','z','x','c','v','b','n','m', ',','.','↑',
                     'ctrl','cmd','alt','↔','←','↓','→'];
 const layout_ru = ['ё','1','2','3','4','5','6','7','8','9','0','-','=','↚',
-                    'й','ц','к','к','е','н','г','ш','щ','з','х','ъ','🌎',
-                    'ф','ы','в','а','п','р','о','л','д','ж','э','↵',
-                    '↥','я','ч','с','м','и','т','ь','б','ю','↑',
+                    '↹','й','ц','у','к','е','н','г','ш','щ','з','х','ъ','🌎',
+                    '⇈','ф','ы','в','а','п','р','о','л','д','ж','э','↵',
+                    '↥','я','ч','с','м','и','т','ь', 'б', 'ю','↑',
                     'ctrl','cmd','alt','↔','←','↓','→'];
 
 
@@ -45,7 +45,8 @@ let upperCase = false;
 const rsKeyboard = {
     parts: {
         wrapper: null,
-        board: null
+        board: null,
+        system: null
     },
 
     createKeyboard(){
@@ -54,7 +55,12 @@ const rsKeyboard = {
         this.parts.board = document.createElement('div');
         this.parts.board.classList.add('board');
 
+        this.parts.system = document.createElement('div');
+        this.parts.system.classList.add('signature');
+        this.parts.system.innerText = 'Linux, KDE'
+
         this.parts.wrapper.append(this.parts.board);
+        this.parts.wrapper.append(this.parts.system)
         document.body.append(this.parts.wrapper);
 
         this.createKeys();
@@ -66,7 +72,7 @@ const rsKeyboard = {
     
     createKeys(){
         const rowBreakKeys = ['↚', '🌎', '↵', '↑']
-        const doubleWidth = ['↚', '↵', '↥', '🌎', 'Tab']
+        const doubleWidth = ['↚', '⇈', '↵', '↥', '🌎', 'Tab']
         const keys__dom = document.createDocumentFragment();
 
         layout.forEach(function(key){
@@ -84,25 +90,40 @@ const rsKeyboard = {
             if (key == '↔'){
                 keyElement.classList.add('key__button_space')
             }
-            keyElement.addEventListener("click", keyAction)
+            if (key == '↑'){
+                keyElement.classList.add('key__button_up')
+            }
+            if (upperCase == true && key == '⇈'){
+                keyElement.classList.add('key__button_active');
+            }
+            
+            keyElement.addEventListener("click", keyAction);
         })
 
         function keyAction(){
-            const specialKeys = ['↚','↵','↥','↑','ctrl','cmd','alt','↔','←','↓','→']
+            const specialKeys = ['↚','↹','⇈','↵','↥','↑','ctrl','cmd','alt','↔','←','↓','→']
             let currentText = document.querySelector('textarea');
             
             if (specialKeys.includes(this.innerText)){
                 if (this.innerText === '↚'){
                     currentText.value = currentText.value.replace(/.$/, '')
                 }
+                if (this.innerText === '↹'){
+                    currentText.value += '        '
+                }
+                if (this.innerText === '⇈'){
+                    if (upperCase == true){
+                        document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.toggle('key__button_active');
+                        upperCase = false;
+                    } else {
+                        document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.toggle('key__button_active');
+                        upperCase = true;
+                    }
+                }
                 if (this.innerText === '↵'){
                     currentText.value += '\n'
                 }
-                if (this.innerText === '↥' && upperCase == false){
-                    upperCase = true
-                } else {
-                    upperCase = false
-                }
+                // if (this.innerText === '↥'){}
                 if (this.innerText === '↔'){
                     currentText.value += ' '
                 }
@@ -128,11 +149,24 @@ const rsKeyboard = {
             if (e.ctrlKey && e.shiftKey){
                 changeLayout();
             }
-        
             if (e.code === 'Backspace'){
                 keyButton[layout.indexOf('↚')].classList.toggle('key__button_active');
                 e.preventDefault();
                 currentText.value = currentText.value.replace(/.$/, '')
+            }
+            if (e.code === 'Tab'){
+                keyButton[layout.indexOf('↹')].classList.toggle('key__button_active');
+                e.preventDefault();
+                currentText.value += '        '
+            }
+            if (e.code === 'CapsLock'){
+                if (upperCase == true){
+                    document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.remove('key__button_active');
+                    upperCase = false;
+                } else {
+                    document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.add('key__button_active');
+                    upperCase = true;
+                }
             }
             if (e.code === 'Enter'){
                 keyButton[layout.indexOf('↵')].classList.toggle('key__button_active');
@@ -140,13 +174,13 @@ const rsKeyboard = {
                 currentText.value += '\n';
             }
             if (e.key === 'Shift'){
-                keyButton[layout.indexOf('↥')].classList.toggle('key__button_active');
+                keyButton[layout.indexOf('↥')].classList.add('key__button_active');
             }
             if (e.code === 'ArrowUp'){
                 keyButton[layout.indexOf('↑')].classList.toggle('key__button_active');
             }
             if (e.key === 'Control'){
-                keyButton[layout.indexOf('ctrl')].classList.toggle('key__button_active');
+                keyButton[layout.indexOf('ctrl')].classList.add('key__button_active');
             }
             if (e.key === 'Meta'){
                 keyButton[layout.indexOf('cmd')].classList.toggle('key__button_active');
@@ -169,32 +203,36 @@ const rsKeyboard = {
                 keyButton[layout.indexOf('→')].classList.toggle('key__button_active');
             }
             for (let i=0; i<layout.length; i++){
-                if (e.key === layout[i]){
+                if (e.key.toLowerCase() === layout_en[i] || e.key.toLowerCase() === layout_ru[i]){
                     keyButton[i].classList.toggle('key__button_active');
-                    currentText.value += e.key;
+                    if (upperCase == true){
+                        currentText.value += layout[i].toLocaleUpperCase();
+                    } else {
+                        currentText.value += layout[i];
+                    }
                 }
             }
         })
         document.addEventListener('keyup', (e)=>{
             let keyButton = document.querySelectorAll('.key__button');
-            
+
             if (e.code === 'Backspace'){
                 keyButton[layout.indexOf('↚')].classList.toggle('key__button_active');
             }
             if (e.code === 'Tab'){
-                keyButton[layout.indexOf('Tab')].classList.toggle('key__button_active');
+                keyButton[layout.indexOf('↹')].classList.toggle('key__button_active');
             }
             if (e.code === 'Enter'){
                 keyButton[layout.indexOf('↵')].classList.toggle('key__button_active');
             }
             if (e.key === 'Shift'){
-                keyButton[layout.indexOf('↥')].classList.toggle('key__button_active');
+                keyButton[layout.indexOf('↥')].classList.remove('key__button_active');
             }
             if (e.code === 'ArrowUp'){
                 keyButton[layout.indexOf('↑')].classList.toggle('key__button_active');
             }
             if (e.key === 'Control'){
-                keyButton[layout.indexOf('ctrl')].classList.toggle('key__button_active');
+                keyButton[layout.indexOf('ctrl')].classList.remove('key__button_active');
             }
             if (e.key === 'Meta'){
                 keyButton[layout.indexOf('cmd')].classList.toggle('key__button_active');
@@ -215,7 +253,7 @@ const rsKeyboard = {
                 keyButton[layout.indexOf('→')].classList.toggle('key__button_active');
             }
             for (let i=0; i<layout.length; i++){
-                if (e.key === layout[i]){
+                if (e.key.toLowerCase() === layout_en[i] || e.key.toLowerCase() === layout_ru[i]){
                     keyButton[i].classList.toggle('key__button_active');
                 }
             }
