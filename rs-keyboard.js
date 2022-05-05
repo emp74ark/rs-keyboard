@@ -1,7 +1,8 @@
 const rsText = {
     elements: {
         wrapper: null,
-        area: null
+        area: null,
+        layout_shortcut: null
     },
 
     createTextarea(){
@@ -9,8 +10,12 @@ const rsText = {
         this.elements.wrapper.classList.add('text__wrapper');
         this.elements.area = document.createElement('textarea');
         this.elements.area.classList.add('text__input');
+        this.elements.layout_shortcut = document.createElement('div');
+        this.elements.layout_shortcut.classList.add('text__wrapper');
+        rsText.elements.layout_shortcut.innerText = 'Press Shift+Ctrl to change layout'
 
         this.elements.wrapper.append(this.elements.area);
+        this.elements.wrapper.append(this.elements.layout_shortcut)
         document.body.append(this.elements.wrapper);
     }
 }
@@ -61,7 +66,7 @@ const rsKeyboard = {
     
     createKeys(){
         const rowBreakKeys = ['↚', '🌎', '↵', '↑']
-        const douleWidth = ['↚', '↵', '↥', '🌎']
+        const doubleWidth = ['↚', '↵', '↥', '🌎']
         const keys__dom = document.createDocumentFragment();
 
         layout.forEach(function(key){
@@ -73,7 +78,7 @@ const rsKeyboard = {
                 let breakLine = document.createElement('br');
                 keys__dom.append(breakLine);
             }
-            if (douleWidth.includes(key)){
+            if (doubleWidth.includes(key)){
                 keyElement.classList.add('key__button_double')
             }
             if (key == '↔'){
@@ -83,6 +88,105 @@ const rsKeyboard = {
         })
 
         this.parts.board.append(keys__dom);
+    },
+    assignHwKeys(){
+        document.addEventListener('keydown', (e)=>{
+            let currentText = rsText.elements.area;
+            let keyButton = document.querySelectorAll('.key__button');
+        
+            if (e.ctrlKey && e.shiftKey){
+                changeLayout();
+            }
+        
+            if (e.code === 'Backspace'){
+                keyButton[layout.indexOf('↚')].classList.toggle('key__button_active');
+                e.preventDefault();
+                currentText.value = currentText.value.replace(/.$/, '')
+            }
+            if (e.code === 'Enter'){
+                keyButton[layout.indexOf('↵')].classList.toggle('key__button_active');
+                e.preventDefault();
+                currentText.value += '\n';
+            }
+            if (e.key === 'Shift'){
+                keyButton[layout.indexOf('↥')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowUp'){
+                keyButton[layout.indexOf('↑')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Control'){
+                keyButton[layout.indexOf('ctrl')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Meta'){
+                keyButton[layout.indexOf('cmd')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Alt'){
+                keyButton[layout.indexOf('alt')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'Space'){
+                keyButton[layout.indexOf('↔')].classList.toggle('key__button_active');
+                e.preventDefault();
+                currentText.value += ' ';
+            }
+            if (e.code === 'ArrowLeft'){
+                keyButton[layout.indexOf('←')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowDown'){
+                keyButton[layout.indexOf('↓')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowRight'){
+                keyButton[layout.indexOf('→')].classList.toggle('key__button_active');
+            }
+            for (let i=0; i<layout.length; i++){
+                if (e.key === layout[i]){
+                    keyButton[i].classList.toggle('key__button_active');
+                    currentText.value += e.key;
+                    console.log(e.key)
+                }
+            }
+        })
+        document.addEventListener('keyup', (e)=>{
+            let keyButton = document.querySelectorAll('.key__button');
+            
+            if (e.code === 'Backspace'){
+                keyButton[layout.indexOf('↚')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'Enter'){
+                keyButton[layout.indexOf('↵')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Shift'){
+                keyButton[layout.indexOf('↥')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowUp'){
+                keyButton[layout.indexOf('↑')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Control'){
+                keyButton[layout.indexOf('ctrl')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Meta'){
+                keyButton[layout.indexOf('cmd')].classList.toggle('key__button_active');
+            }
+            if (e.key === 'Alt'){
+                keyButton[layout.indexOf('alt')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'Space'){
+                keyButton[layout.indexOf('↔')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowLeft'){
+                keyButton[layout.indexOf('←')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowDown'){
+                keyButton[layout.indexOf('↓')].classList.toggle('key__button_active');
+            }
+            if (e.code === 'ArrowRight'){
+                keyButton[layout.indexOf('→')].classList.toggle('key__button_active');
+            }
+            for (let i=0; i<layout.length; i++){
+                if (e.key === layout[i]){
+                    keyButton[i].classList.toggle('key__button_active');
+                }
+            }
+        })
     }
 }
 
@@ -97,11 +201,9 @@ function keyAction(key){
     if (specialKeys.includes(this.innerText)){
         if (this.innerText === '↚'){
             currentText.value = currentText.value.replace(/.$/, '')
-            // delete only last symbol
         }
         if (this.innerText === '↵'){
             currentText.value += '\n'
-            // add new line only after all text
         }
         if (this.innerText === '↥' && upperCase == false){
             upperCase = true
@@ -123,93 +225,6 @@ function keyAction(key){
     }
 }
 
-// Physical keys actions
-document.addEventListener('keydown', (e)=>{
-    let currentText = document.querySelector('textarea');
-    if (e.ctrlKey && e.shiftKey){
-        changeLayout();
-    }
-    if (e.code === 'Backspace'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↚')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'Enter'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↵')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Shift'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↥')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowUp'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↑')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Control'){
-        document.querySelectorAll('.key__button')[layout.indexOf('ctrl')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Meta'){
-        document.querySelectorAll('.key__button')[layout.indexOf('cmd')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Alt'){
-        document.querySelectorAll('.key__button')[layout.indexOf('alt')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'Space'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↔')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowLeft'){
-        document.querySelectorAll('.key__button')[layout.indexOf('←')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowDown'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↓')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowRight'){
-        document.querySelectorAll('.key__button')[layout.indexOf('→')].classList.toggle('key__button_active');
-    }
-    for (let i=0; i<layout.length; i++){
-        if (e.key === layout[i]){
-            document.querySelectorAll('.key__button')[i].classList.toggle('key__button_active');
-            currentText.value += e.key;
-        }
-    }
-})
-document.addEventListener('keyup', (e)=>{
-    if (e.code === 'Backspace'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↚')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'Enter'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↵')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Shift'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↥')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowUp'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↑')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Control'){
-        document.querySelectorAll('.key__button')[layout.indexOf('ctrl')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Meta'){
-        document.querySelectorAll('.key__button')[layout.indexOf('cmd')].classList.toggle('key__button_active');
-    }
-    if (e.key === 'Alt'){
-        document.querySelectorAll('.key__button')[layout.indexOf('alt')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'Space'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↔')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowLeft'){
-        document.querySelectorAll('.key__button')[layout.indexOf('←')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowDown'){
-        document.querySelectorAll('.key__button')[layout.indexOf('↓')].classList.toggle('key__button_active');
-    }
-    if (e.code === 'ArrowRight'){
-        document.querySelectorAll('.key__button')[layout.indexOf('→')].classList.toggle('key__button_active');
-    }
-    for (let i=0; i<layout.length; i++){
-        if (e.key === layout[i]){
-            document.querySelectorAll('.key__button')[i].classList.toggle('key__button_active');
-            currentText.value += e.key;
-        }
-    }
-})
-
 rsText.createTextarea();
 rsKeyboard.createKeyboard();
+rsKeyboard.assignHwKeys();
