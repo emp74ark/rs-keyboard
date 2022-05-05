@@ -8,9 +8,9 @@
 - Add event listeners for keyboard
     * regular keys
     * functional keys
+- ESLint
 ## To-do:
 - CapsLock button
-- ESLint
 ## Bugs
 - Keyboard arrows don't works
 - Shift and Ctrl remain highlighted after layout switch
