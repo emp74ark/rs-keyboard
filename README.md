@@ -11,9 +11,11 @@
     * functional keys
 - Tab button
 - CapsLock button
-## To-do:
 - Shift
+- ESLint (eslint-config-airbnb-base)
+## To-do:
 - Arrows
 - Del
-- ESLint (eslint-config-airbnb-base)
+- Symbols on nums buttons
+- Set cookies
 ## Bugs
