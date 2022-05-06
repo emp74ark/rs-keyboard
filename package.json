@@ -1,0 +1,24 @@
+{
+  "name": "rs-keyboard",
+  "version": "1.0.0",
+  "description": "[Links to gh-pages](https://emp74ark.github.io/rs-keyboard/) ## Already done: - Generate virtual keyboard in JS - Additional layout - Shift key - Add event listeners for mouse - Keyboard layout switch - Add event listeners for keyboard     * regular keys     * functional keys - Tab button - CapsLock button - Shift ## To-do: - Arrows - Del - Symbols on nums buttons - Set cookies - ESLint (eslint-config-airbnb-base) ## Bugs",
+  "main": "rs-keyboard.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emp74ark/rs-keyboard.git"
+  },
+  "author": "emp74ark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/emp74ark/rs-keyboard/issues"
+  },
+  "homepage": "https://github.com/emp74ark/rs-keyboard#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}

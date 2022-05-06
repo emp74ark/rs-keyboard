@@ -45,6 +45,10 @@
     vertical-align: middle;
     border-radius: 10px;
 }
+.key__button:hover {
+    background-color: #81ff65;
+    cursor: pointer;
+}
 .key__button_double {
     width: 10rem;
 }
@@ -56,5 +60,4 @@
 }
 .key__button_active {
     background-color: #81ff65;
-    box-shadow: 2px 2px #14270f;
 }
