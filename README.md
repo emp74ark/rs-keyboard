@@ -13,6 +13,7 @@
 - CapsLock button
 - Shift
 - ESLint (eslint-config-airbnb-base)
+- Webpack
 ## To-do:
 - Arrows
 - Del
