@@ -34,10 +34,29 @@ const layoutRu = ['ё', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '
 
 const specialKeys = ['↚', '↹', '⇈', '↵', '↥', '↑', 'ctrl', 'cmd', 'alt', '↔', '←', '↓', '→', 'del'];
 
-let layout = layoutEn;
+let layout;
+
+function restoreLang() {
+  if (localStorage.getItem('lang') === null) {
+    localStorage.setItem('lang', 'en');
+    layout = layoutEn;
+  } else if (localStorage.getItem('lang') === 'en') {
+    layout = layoutEn;
+  } else {
+    layout = layoutRu;
+  }
+}
+
+restoreLang();
 
 function changeLayout() {
-  layout === layoutEn ? layout = layoutRu : layout = layoutEn;
+  if (layout === layoutEn) {
+    layout = layoutRu;
+    localStorage.setItem('lang', 'ru');
+  } else {
+    layout = layoutEn;
+    localStorage.setItem('lang', 'en');
+  }
   document.querySelector('.keyboard_wrapper').remove();
   rsKeyboard.createKeyboard();
 }
