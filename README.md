@@ -12,10 +12,11 @@
 - Tab button
 - CapsLock button
 - Shift
+- Save layout after reload
 - ESLint (eslint-config-airbnb-base)
+- Webpack
 ## To-do:
 - Arrows
 - Del
-- Symbols on nums buttons
-- Set cookies
+- Symbols on num buttons
 ## Bugs
