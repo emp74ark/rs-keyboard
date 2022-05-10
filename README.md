@@ -1,5 +1,6 @@
 # Virtual keyboard for RS 
-[Links to gh-pages](https://emp74ark.github.io/rs-keyboard/)
+[Link to task](https://github.com/rolling-scopes-school/tasks/blob/master/tasks/virtual-keyboard/virtual-keyboard-en.md)
+[Link to deploy on GH](https://emp74ark.github.io/rs-keyboard/)
 ## Already done:
 - Generate virtual keyboard in JS
 - Additional layout
