@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/emp74ark/rs-keyboard#readme",
   "devDependencies": {
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.26.0",
-    "webpack-cli": "^4.9.2",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "webpack-cli": "^4.9.2"
   }
 }

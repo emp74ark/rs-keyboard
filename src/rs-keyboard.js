@@ -49,18 +49,6 @@ function restoreLang() {
 
 restoreLang();
 
-function changeLayout() {
-  if (layout === layoutEn) {
-    layout = layoutRu;
-    localStorage.setItem('lang', 'ru');
-  } else {
-    layout = layoutEn;
-    localStorage.setItem('lang', 'en');
-  }
-  document.querySelector('.keyboard_wrapper').remove();
-  rsKeyboard.createKeyboard();
-}
-
 let upperCase = false;
 
 const rsKeyboard = {
@@ -91,6 +79,18 @@ const rsKeyboard = {
     this.parts.wrapper.remove();
   },
 
+  changeLayout() {
+    if (layout === layoutEn) {
+      layout = layoutRu;
+      localStorage.setItem('lang', 'ru');
+    } else {
+      layout = layoutEn;
+      localStorage.setItem('lang', 'en');
+    }
+    document.querySelector('.keyboard_wrapper').remove();
+    rsKeyboard.createKeyboard();
+  },
+
   createKeys() {
     const rowBreakKeys = ['↚', '🌎', '↵', '↑'];
     const doubleWidth = ['↚', '⇈', '↵', '↥', 'Tab'];
@@ -118,42 +118,40 @@ const rsKeyboard = {
         keyElement.classList.add('key__button_active');
       }
 
+      function keyAction() {
+        const currentText = document.querySelector('textarea');
+        if (specialKeys.includes(this.innerText)) {
+          if (this.innerText === '↚') {
+            currentText.value = currentText.value.replace(/.$/, '');
+          }
+          if (this.innerText === '↹') {
+            currentText.value += '        ';
+          }
+          if (this.innerText === '⇈') {
+            if (upperCase === true) {
+              document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.toggle('key__button_active');
+              upperCase = false;
+            } else {
+              document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.toggle('key__button_active');
+              upperCase = true;
+            }
+          }
+          if (this.innerText === '↵') {
+            currentText.value += '\n';
+          }
+          if (this.innerText === '↔') {
+            currentText.value += ' ';
+          }
+        } else if (this.innerText === '🌎') {
+          rsKeyboard.changeLayout();
+        } else if (upperCase === true) {
+          currentText.value += this.innerText.toUpperCase();
+        } else {
+          currentText.value += this.innerText;
+        }
+      }
       keyElement.addEventListener('click', keyAction);
     });
-
-    function keyAction() {
-      const currentText = document.querySelector('textarea');
-
-      if (specialKeys.includes(this.innerText)) {
-        if (this.innerText === '↚') {
-          currentText.value = currentText.value.replace(/.$/, '');
-        }
-        if (this.innerText === '↹') {
-          currentText.value += '        ';
-        }
-        if (this.innerText === '⇈') {
-          if (upperCase === true) {
-            document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.toggle('key__button_active');
-            upperCase = false;
-          } else {
-            document.querySelectorAll('.key__button')[layout.indexOf('⇈')].classList.toggle('key__button_active');
-            upperCase = true;
-          }
-        }
-        if (this.innerText === '↵') {
-          currentText.value += '\n';
-        }
-        if (this.innerText === '↔') {
-          currentText.value += ' ';
-        }
-      } else if (this.innerText === '🌎') {
-        changeLayout();
-      } else if (upperCase === true) {
-        currentText.value += this.innerText.toUpperCase();
-      } else {
-        currentText.value += this.innerText;
-      }
-    }
 
     this.parts.board.append(keysDom);
   },
@@ -161,10 +159,11 @@ const rsKeyboard = {
     document.addEventListener('keydown', (e) => {
       const currentText = rsText.elements.area;
       const keyButton = document.querySelectorAll('.key__button');
+
       e.preventDefault();
 
       if (e.ctrlKey && e.shiftKey) {
-        changeLayout();
+        rsKeyboard.changeLayout();
       }
 
       if (e.code === 'Backspace') {
